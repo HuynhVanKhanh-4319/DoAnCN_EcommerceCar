@@ -1,0 +1,104 @@
+﻿@page
+@model RegisterModel
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/registrations/registration-3/assets/css/registration-3.css">
+<!-- Registration 3 - Bootstrap Brain Component -->
+<section class="p-3 p-md-4 p-xl-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 bsb-tpl-bg-platinum">
+                <div class="d-flex flex-column justify-content-between h-100 p-3 p-md-4 p-xl-5">
+                    <h3 class="m-0">Welcome!</h3>
+                    <img class="img-fluid rounded mx-auto my-4" loading="lazy" src="data:image/jpeg;base64,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" width="245" height="80" alt="BootstrapBrain Logo">
+                    <p class="mb-0">Not a member yet? <a href="#!" class="link-secondary text-decoration-none">Register now</a></p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 bsb-tpl-bg-lotion">
+                <div class="p-3 p-md-4 p-xl-5">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-5">
+                                <h2 class="h3">Registration</h2>
+                                <h3 class="fs-6 fw-normal text-secondary m-0">Enter your details to register</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        <div class="row gy-3 gy-md-4 overflow-hidden">
+                            <div class="col-12">
+                                <label asp-for="Input.UserName">UserName</label>
+                                <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" />
+                                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="Input.Email">Email</label>
+                                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="Input.Password">Password</label>
+                                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+
+                            </div>
+                            <div class="col-12">
+                                <div class="d-grid">
+                                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-12">
+                            <hr class="mt-5 mb-4 border-secondary-subtle">
+                            <p class="m-0 text-secondary text-end">Already have an account? <a href="/identity/Account/Login" class="link-primary text-decoration-none">Sign in</a></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="mt-5 mb-4">Or sign in with</p>
+                            <div class="d-flex gap-3 flex-column flex-xl-row">
+                                <a href="#!" class="btn bsb-btn-xl btn-outline-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                                        <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
+                                    </svg>
+                                    <span class="ms-2 fs-6">Google</span>
+                                </a>
+                                <a href="#!" class="btn bsb-btn-xl btn-outline-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                                    </svg>
+                                    <span class="ms-2 fs-6">Facebook</span>
+                                </a>
+                                <a href="#!" class="btn bsb-btn-xl btn-outline-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
+                                        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                    </svg>
+                                    <span class="ms-2 fs-6">Twitter</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

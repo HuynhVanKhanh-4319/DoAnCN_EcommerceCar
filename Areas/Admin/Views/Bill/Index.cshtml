@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CarBook.Models.Bill>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Danh sách hóa đơn</h1>
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning text-center">
+            <strong>Không có hóa đơn nào để hiển thị!</strong>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Người dùng</th>
+                        <th>Tổng tiền</th>
+                        <th>Ngày đặt</th>
+                        <th>Ngày trả</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var bill in Model)
+                    {
+                        <tr>
+                            <td>@bill.Id</td>
+                            <td>@bill.ApplicationUsers?.Name </td>
+                            <td>@bill.Total.ToString("C")</td>
+                            <td>@bill.StartDate?.ToString("dd/MM/yyyy")</td>
+                            <td>@bill.EndDate?.ToString("dd/MM/yyyy")</td>
+                            <td>@bill.OrderStatus </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@bill.Id" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-info-circle"></i> Chi tiết
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Phân trang -->
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+}
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,0 +1,40 @@
+﻿@model Discount
+
+@{
+    ViewData["Title"] = "Sửa giảm giá";
+}
+
+<h1 class="my-4">Sửa giảm giá</h1>
+
+<form asp-action="Edit" method="post" class="bg-light p-4 rounded shadow-sm">
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <div class="form-group mb-3">
+        <label for="ProductId" class="form-label">Sản phẩm</label>
+        <select class="form-control" id="ProductId" name="productId">
+            @foreach (var product in ViewBag.Products)
+            {
+                <option value="@product.Id" selected="@product.Id == Model.ProductId">@product.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="Percentage" class="form-label">Giảm giá (%)</label>
+        <input type="number" class="form-control" id="Percentage" name="percentage" value="@Model.Percentage" min="0" max="100" required />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="StartDate" class="form-label">Ngày bắt đầu</label>
+        <input type="date" class="form-control" id="StartDate" name="startDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" required />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="EndDate" class="form-label">Ngày kết thúc</label>
+        <input type="date" class="form-control" id="EndDate" name="endDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" required />
+    </div>
+
+    <button type="submit" class="btn btn-success btn-lg w-100">Cập nhật</button>
+</form>
+
+<a href="@Url.Action("Index", "Discount")" class="btn btn-secondary mt-3 w-100">Quay lại</a>

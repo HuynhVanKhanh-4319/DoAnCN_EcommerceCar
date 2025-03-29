@@ -1,0 +1,96 @@
+﻿
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Cars <i class="ion-ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">Choose Your Car</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container mt-5">
+    <h2 class="text-center">Chi tiết đơn hàng</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Mã hóa đơn:</h5>
+            <p>@Model.Id</p>
+        </div>
+        <div class="col-md-6">
+            <h5>Ngày đặt:</h5>
+            <p>@Model.StartDate?.ToString("dd/MM/yyyy")</p>
+        </div>
+        <div class="col-md-6">
+            <h5>Trạng thái:</h5>
+            <p>@Model.OrderStatus</p>
+        </div>
+        <div class="col-md-6">
+            <h5>Người dùng:</h5>
+            <p>@Model.Name</p>
+        </div>
+        <div class="col-md-6">
+            <h5>Địa Chỉ:</h5>
+            <p>@Model.Address</p>
+        </div>
+        <div class="col-md-6">
+            <h5>Số Điện Thoại:</h5>
+            <p>@Model.PhoneNumber</p>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <h3 class="text-center mt-4">Chi tiết sản phẩm trong đơn hàng</h3>
+
+        @if (Model.DetailBills != null && Model.DetailBills.Count > 0)
+        {
+            <table class="table table-striped table-bordered mt-4">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Ngày Đặt </th>
+                        <th>Ngày Trả</th>
+                        <th>Số ngày thuê</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var detail in Model.DetailBills)
+                    {
+                        <tr>
+                            <td class="product-info">
+                                <div class="product-image"
+                                     style="background-image: url('/images/products/@(detail.Products?.Images != null && detail.Products.Images.Count > 0 ? detail.Products.Images[0].Path : "no-image.png")');
+                                         background-size: cover;
+                                         background-position: center;
+                                         height: 120px;
+                                         width: 120px;">
+                                </div>
+                                <div class="product-name mt-2">
+                                    @detail.Products?.Name
+                                </div>
+                            </td>
+                            <td class="text-center">@detail.Products.Price.ToString("C")</td>
+                            <td class="text-center">@detail.Bills.StartDate?.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@detail.Bills.EndDate?.ToString("dd/MM/yyyy") </td>
+                            <td class="text-center">@detail.Days</td>
+                            <td class="text-center">@detail.ProductPrice.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-center">Không có sản phẩm nào trong hóa đơn này.</p>
+        }
+    </div>
+
+
+
+    <div class="mt-4 text-center">
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </div>
+</div>
+

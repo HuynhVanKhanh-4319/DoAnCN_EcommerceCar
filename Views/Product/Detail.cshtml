@@ -1,0 +1,599 @@
+﻿@{
+    ViewData["Tittle"] = "Product Detail Page";
+}
+
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Cars <i class="ion-ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">Choose Your Car</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết xe cho thuê</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .car-detail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+            .carousel img {
+                width: 100%;
+                display: none;
+                border-radius: 8px;
+            }
+
+                .carousel img.active {
+                    display: block;
+                }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+            .carousel-controls button {
+                background-color: rgba(0, 0, 0, 0.5);
+                color: white;
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+                font-size: 18px;
+                border-radius: 50%;
+            }
+
+                .carousel-controls button:hover {
+                    background-color: rgba(0, 0, 0, 0.8);
+                }
+
+        .car-info {
+            flex: 2;
+            min-width: 300px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .car-info h2 {
+                font-size: 24px;
+                color: #4CAF50;
+                margin-bottom: 10px;
+            }
+
+            .car-info p {
+                margin: 10px 0;
+            }
+
+        .price {
+            font-size: 24px;
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+        .specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .spec-item {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 10px;
+            flex: 1 1 45%;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .spec-item i {
+                color: #4CAF50;
+                font-size: 18px;
+            }
+
+        .review-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            .review-section h3 {
+                font-size: 20px;
+                color: #4CAF50;
+                margin-bottom: 15px;
+                text-align: center;
+            }
+
+        .review {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+            .review:last-child {
+                border-bottom: none;
+            }
+
+            .review .customer-name {
+                font-weight: bold;
+                color: #333;
+            }
+
+            .review .rating {
+                color: #FFD700;
+            }
+
+            .review .comment {
+                margin-top: 5px;
+                color: #666;
+            }
+
+        .add-review {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+            .add-review h4 {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .submit-review {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .submit-review:hover {
+                background-color: #45a049;
+            }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .car-detail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-section {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-reviews {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .toggle-reviews:hover {
+                background-color: #45a049;
+            }
+
+        .star-rating {
+           direction: rtl;
+           font-size: 2em;
+           unicode-bidi: bidi-override;
+           display: flex;
+           justify-content: flex-start;
+        }
+
+            .star-rating input {
+                display: none;
+            }
+
+            .star-rating label {
+                color: #ddd; 
+                cursor: pointer;
+            }
+
+                .star-rating input:checked ~ label,
+                .star-rating label:hover,
+                .star-rating label:hover ~ label {
+                    color: gold; 
+                }
+
+        .star {
+            color: gold;
+            font-size: 18px;
+            margin-right: 2px;
+        }
+
+        .star-full {
+            color: gold;
+        }
+
+        .star-half {
+            background: linear-gradient(90deg, gold 50%, #ddd 50%);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .star-empty {
+            color: #ddd;
+        }
+
+        .rating-number {
+            font-size: 16px; /* Giảm kích thước font để tiết kiệm không gian */
+            margin-left: 8px;
+            margin-top: 16px; /* Giảm khoảng cách với số sao */
+        }
+
+            .rating-number .star-full {
+                color: gold;
+            }
+
+        .original-price {
+            text-decoration: line-through; /* Gạch ngang */
+            color: #888; /* Màu xám nhạt */
+            font-size: 14px; /* Kích thước nhỏ hơn giá mới */
+            margin-right: 8px; /* Khoảng cách giữa giá cũ và giá mới */
+        }
+
+        .discounted-price {
+            color: red; /* Màu đỏ nổi bật */
+            font-size: 16px; /* Kích thước lớn hơn giá cũ */
+            font-weight: bold; /* Tô đậm */
+        }
+
+        .img-container {
+            position: relative;
+        }
+
+        .img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: red;
+            color: white;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+   
+
+    <div class="container">
+        <form action="/submit-car-details" method="POST">
+            <div class="car-detail">
+           
+                 @foreach (var product in new[] { ViewBag.Data })
+            {
+
+                    <div class="carousel">
+                    @foreach (var image in product.Images)
+                    {
+                            <img src="/images/products/@image.Path" alt="Car Image" class="carousel-image @((product.Images.IndexOf(image) == 0) ? "active" : "")">
+                    }
+                        <div class="carousel-controls">
+                            <button type="button" onclick="prevImage()">&#10094;</button>
+                            <button type="button" onclick="nextImage()">&#10095;</button>
+                        </div>
+                    </div>
+
+                    <div class="car-info">
+                        <h2>@product.Name</h2>
+                        @if (ViewBag.HasDiscount)
+                        {
+                            <span class="original-price">@String.Format("{0:N0}", product.Price) VND</span>
+                            <span class="discounted-price">@String.Format("{0:N0}", ViewBag.PriceAfterDiscount) VND/ngày</span>
+                        }
+                        else
+                        {
+                            <span>@String.Format("{0:N0}", product.Price) VND/ngày</span>
+                        }
+                        <p><strong>Mô tả:</strong>   @product.Description</p>
+
+                        <div class="specs">
+                            <div class="spec-item"><i class="fas fa-users"></i><strong>Chỗ ngồi:</strong> @product.Category.Name</div>
+                            <div class="spec-item"><i class="fas fa-cogs"></i><strong>Hộp số:</strong> Tự động</div>
+                            <div class="spec-item"><i class="fas fa-gas-pump"></i><strong>Nhiên liệu:</strong> Xăng</div>
+                            <div class="spec-item"><i class="fas fa-tachometer-alt"></i><strong>Tiêu hao nhiên liệu:</strong> 8L/100km</div>
+                            <div class="spec-item"><i class="fas fa-palette"></i><strong>Màu sắc:</strong> Trắng</div>
+                            <div class="spec-item"><i class="fas fa-road"></i><strong>Khoảng cách đã đi:</strong> 20,000 km</div>
+                            <button type="button" class="toggle-reviews" onclick="toggleReviewSection()">Hiển thị đánh giá</button>
+                        </div>
+                    </div>
+               } 
+            </div>
+
+        </form>
+        <div class="review-section" id="review-section">
+            <h3>Đánh giá khách hàng</h3>
+            @foreach (var review in ViewBag.Reviews as IEnumerable<CarBook.Models.Review>)
+            {
+                <div class="review">
+                    <strong>@review.UserName</strong> - @review.CreatedAt.ToString("dd/MM/yyyy hh:mm tt")
+                    <p>
+                        Rating:
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= review.Rating)
+                            {
+                                <span class="star">&#9733;</span>  <!-- Hiển thị sao đầy -->
+                            }
+                            else
+                            {
+                                <span class="star">&#9734;</span>  <!-- Hiển thị sao trống -->
+                            }
+                        }
+                    </p>
+                    <p>@review.Comment</p>
+                </div>
+            }
+                <div class="add-review">
+                    <h4>Thêm đánh giá của bạn</h4>
+                    <form method="post" action="@Url.Action("AddReview","Product")">
+                        <div class="form-group">
+                            <label for="reviewer-name">Họ và tên</label>
+                            <input type="text" id="reviewer-name" name="userName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-rating">Đánh giá (1-5 sao)</label>
+                        <div class="star-rating" style=" margin-right: 950px;">
+                                <input type="radio" id="star5" name="rating" value="5"><label for="star5" title="5 stars">&#9733;</label>
+                                <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars">&#9733;</label>
+                                <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars">&#9733;</label>
+                                <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars">&#9733;</label>
+                                <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star">&#9733;</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-comment">Nhận xét</label>
+                            <textarea id="review-comment" name="comment" required></textarea>
+                        </div>
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                    </form>
+                </div>
+            </div>
+
+
+    </div>
+    <section class="ftco-section ftco-no-pt bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+                    <span class="subheading">What we offer</span>
+                    <h2 class="mb-2">Featured Vehicles</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="carousel-car owl-carousel">
+                        @foreach (var productWithRating in ViewBag.ProductsWithRatings)
+                        {
+                            var product = productWithRating.Product;
+                            var averageRating = productWithRating.AverageRating;
+                            var discount = productWithRating.Discount;
+
+                            // Tính giá sau giảm giá
+                            var priceAfterDiscount = product.Price;
+                            if (discount != null)
+                            {
+                                priceAfterDiscount = product.Price * (1 - discount.Percentage / 100);
+                            }
+
+                            <div class="item">
+                                <div class="car-wrap rounded ftco-animate">
+                                    <div class="img-container position-relative">
+                                        <!-- Hiển thị ảnh sản phẩm -->
+                                        <div class="img rounded d-flex align-items-end" style="background-image: url('/images/products/@product.Images[0].Path');">
+                                        </div>
+                                        <!-- Phần giảm giá -->
+                                        @if (discount != null)
+                                        {
+                                            <div class="discount-badge position-absolute top-0 right-0 p-2 bg-danger text-white rounded">
+                                                <span class="discount-percent">-@discount.Percentage%</span>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <div class="text p-4">
+                                        <h2 class="mb-0"><a href="/product/detail/@product.Id" class="text-dark">@product.Name</a></h2>
+                                        <span class="cat text-muted d-block mb-3">Hãng: @product.Brand.Name</span>
+
+                                        <div class="d-flex mb-3">
+                                            @if (discount != null)
+                                            {
+                                                <p class="price ml-auto">
+                                                    <span class="original-price text-muted">@String.Format("{0:N0}", product.Price) VND</span>
+                                                    <span class="discounted-price text-danger">@String.Format("{0:N0}", Math.Round(priceAfterDiscount, 0)) VND/Ngày</span>
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <p class="price ml-auto">@String.Format("{0:N0}", product.Price) <span>VND/Ngày</span></p>
+                                            }
+                                        </div>
+
+                                        <!-- Phần đánh giá -->
+                                        <div class="rating mb-3">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                var isFullStar = averageRating >= i;
+                                                var isHalfStar = averageRating >= i - 0.5 && averageRating < i;
+                                                var starClass = isFullStar ? "star-full" : (isHalfStar ? "star-half" : "star-empty");
+
+                                                <span class="star @starClass">★</span>
+                                            }
+                                          
+                                        </div>
+
+                                        <!-- Các nút hành động -->
+                                        <div class="d-flex justify-content-between">
+                                            @if (product.Status == "Available")
+                                            {
+                                                <a href="/cart/insert/@product.Id" class="btn btn-primary py-2">Book now</a>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-secondary py-2" style="width:136.5px" disabled>Đã đặt</button>
+                                            }
+                                            <a href="/product/detail/@product.Id" class="btn btn-secondary py-2">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+   
+     
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        let currentImageIndex = 0;
+        const images = document.querySelectorAll('.carousel img');
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.classList.remove('active');  
+                if (i === index) {
+                    img.classList.add('active');
+                }
+            });
+        }
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            showImage(currentImageIndex);
+        }
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            showImage(currentImageIndex);
+        }
+        showImage(currentImageIndex);
+
+        function toggleReviewSection() {
+          const reviewSection = document.getElementById('review-section');
+          reviewSection.style.display = reviewSection.style.display === 'none' || reviewSection.style.display === '' ? 'block' : 'none';
+        }
+    </script>
+
+</body>
+</html>

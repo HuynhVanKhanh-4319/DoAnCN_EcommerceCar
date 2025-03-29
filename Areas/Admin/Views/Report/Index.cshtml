@@ -1,0 +1,76 @@
+﻿@model CarBook.Models.ChartViewModel
+
+@{
+    ViewData["Title"] = "Báo cáo Doanh thu theo tháng";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<!-- Biểu đồ doanh thu theo tháng -->
+<canvas id="myChart" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar', // Kiểu biểu đồ cột
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.Labels)), // Dữ liệu nhãn (tháng)
+            datasets: [{
+                label: 'Doanh thu (VND)',
+                data: @Html.Raw(Json.Serialize(Model.Data)), // Dữ liệu doanh thu
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Màu nền của cột
+                borderColor: 'rgba(75, 192, 192, 1)', // Màu đường viền cột
+                borderWidth: 1 // Độ dày của đường viền cột
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Tháng'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Doanh thu (VND)'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<!-- Thống kê xe được đặt nhiều nhất -->
+<h3>Top 5 xe được đặt nhiều nhất</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Tên xe</th>
+            <th scope="col">Số lượng đặt</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vehicle in ViewBag.TopVehicles)
+        {
+            <tr>
+                <td>@vehicle.ProductName</td>
+                <td>@vehicle.TotalQuantity</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

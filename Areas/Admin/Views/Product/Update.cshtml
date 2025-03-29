@@ -1,0 +1,68 @@
+﻿@model CarBook.Models.Product
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewData["title"] = "Product Update - Page";
+}
+
+<h2>Cap Nhật SẢN PHẨM</h2>
+<div class="container">
+    <form asp-area="Admin" asp-controller="Product" asp-action="Update" method="post" enctype="multipart/form-data" class="text-danger">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Name" class="form-label">Tên sản phẩm</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Title">Title</label>
+            <input asp-for="Title" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Description">Description</label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price">Price</label>
+            <input asp-for="Price" class="form-control" type="number" step="0.01" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Amount">Amount</label>
+            <input asp-for="Amount" class="form-control" type="number" />
+        </div>
+        <div class="form-group">
+            <label asp-for="CategoryId">Thể Loại</label>
+            <select asp-for="CategoryId" class="form-control">
+
+                <option disabled>Chon the loai</option>
+                @foreach (var i in ViewBag.categories)
+                {
+                    <option value="@i.Id">@i.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="BrandId">Thể Loại</label>
+            <select asp-for="BrandId" class="form-control">
+
+                <option disabled>Chon the loai</option>
+                @foreach (var i in ViewBag.Brands)
+                {
+                    <option value="@i.Id">@i.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Images">Images</label>
+            <input type="file" name="Images" class="form-control-file" multiple />
+            <span asp-validation-for="Images" class="text-danger"></span>
+        </div>
+      @*   <div class="form-group">
+            <label>
+                <input type="checkbox" asp-for="IsActive" /> Is Active
+            </label>
+        </div>
+ *@
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

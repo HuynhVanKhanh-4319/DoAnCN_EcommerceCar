@@ -1,0 +1,50 @@
+﻿@model Discount
+
+@{
+    ViewData["Title"] = "Tạo mới giảm giá";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="text-center m-0">Tạo mới giảm giá</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div class="mb-3">
+                            <label for="ProductId" class="form-label">Sản phẩm</label>
+                            <select class="form-control" id="ProductId" name="productId">
+                                @foreach (var product in ViewBag.Products)
+                                {
+                                    <option value="@product.Id">@product.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Percentage" class="form-label">Giảm giá (%)</label>
+                            <input type="number" class="form-control" id="Percentage" name="percentage" min="0" max="100" placeholder="Nhập tỷ lệ giảm giá" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="StartDate" class="form-label">Ngày bắt đầu</label>
+                            <input type="date" class="form-control" id="StartDate" name="startDate" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="EndDate" class="form-label">Ngày kết thúc</label>
+                            <input type="date" class="form-control" id="EndDate" name="endDate" required />
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="@Url.Action("Index", "Discount")" class="btn btn-secondary">Quay lại</a>
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

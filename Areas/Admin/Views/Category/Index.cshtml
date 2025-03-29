@@ -1,0 +1,132 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ dòng",
+                    "zeroRecords": "Không tìm thấy kết quả",
+                    "info": "Hiển thị trang _PAGE_ của _PAGES_",
+                    "infoEmpty": "Không có dữ liệu",
+                    "infoFiltered": "(được lọc từ tổng số _MAX_ dòng)",
+                    "search": "Tìm kiếm:",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Tiếp",
+                        "previous": "Trước"
+                    }
+                }
+            });
+        });
+    </script>
+}
+
+<div class="container mt-4">
+    <div class="table-responsive">
+        <table id="myTable" class="table table-striped table-hover table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Tên thể loại</th>
+                    <th>Ngày Tạo</th>
+                    <th>Mô tả</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.TheLoai)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.DateCreated.ToString("dd/MM/yyyy")</td>
+                        <td>@item.Description</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Sửa</a> |                 
+                            <a href="#" class="btn btn-danger btn-sm" onclick="confirmDelete(@item.Id)">Xóa</a>
+                        </td>
+
+                     
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <a href="/admin/category/create" class="btn btn-success btn-lg mt-3">Thêm mới</a>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa thể loại này không?
+            </div>
+            <div class="modal-footer">
+                @foreach (var item in ViewBag.TheLoai){
+                <form id="deleteForm" method="post">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <td>
+                        <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.Id">Xóa</a>
+                    </td>
+
+                </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Tinh chỉnh CSS cho giao diện đẹp hơn */
+    table th, table td {
+        text-align: center;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .btn-sm {
+        margin: 0 5px;
+    }
+
+    .btn-lg {
+        width: 150px;
+        margin-left: 10px;
+    }
+
+    .container {
+        max-width: 1200px;
+    }
+</style>
+<script>
+    // Cập nhật action của form khi người dùng nhấn "Xóa"
+    document.querySelectorAll('a[data-bs-toggle="modal"]').forEach(link => {
+        link.addEventListener('click', function () {
+            const itemId = this.getAttribute('data-id');
+            const form = document.getElementById('deleteForm');
+            form.action = '/admin/category/Delete/' + itemId;  // Cập nhật action với ID cần xóa
+        });
+    });
+</script>
+<script>
+    function confirmDelete(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa thể loại này không?")) {
+            // Nếu người dùng nhấn OK, gửi yêu cầu xóa
+            window.location.href = '/admin/category/Delete/' + id; // Điều hướng đến action Delete
+        }
+    }
+</script>

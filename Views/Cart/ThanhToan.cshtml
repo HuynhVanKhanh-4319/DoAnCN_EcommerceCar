@@ -1,0 +1,190 @@
+﻿
+@* @model CarBook.Models.CartViewModel *@
+@model ThanhToanViewModel
+@{
+    ViewData["Title"] = "Thanh Toán";
+}
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Cars <i class="ion-ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">Choose Your Car</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<main role="main" class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Thông tin giỏ hàng -->
+            <div class="col-md-6">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body text-center">
+                        <i class="fa fa-shopping-cart fa-3x text-primary mb-3" aria-hidden="true"></i>
+                        <h2>Book Car</h2>
+                        <p class="text-muted">Kiểm tra xe trước khi thanh toán.</p>
+                    </div>
+                </div>
+
+                <ul class="list-group shadow-sm mb-4">
+                    @foreach (var item in Model.CartItems)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="my-0">@item.Cart.Products.Name</h6>
+                                <small class="text-muted">
+                                    @String.Format("{0:0,0}", item.Cart.Products.FinalPrice) VND x 
+                                    @((item.Cart.EndDate - item.Cart.StartDate).Days > 0 
+                                        ? (item.Cart.EndDate - item.Cart.StartDate).Days : 1)
+                                </small>
+                            </div>
+                            <span class="text-muted">@String.Format("{0:0,0}", item.TotalPrice) VND</span>
+                        </li>
+                    }
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-primary text-white">
+                        <span><strong>Tổng thành tiền</strong></span>
+                        <strong>@String.Format("{0:0,0}", Model.TotalPrice) VND</strong>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Thông tin thanh toán -->
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="checkout-title mb-4 text-center">Billing Details</h2>
+                        <form asp-controller="Cart" asp-action="ThanhToanSubmit" method="post">
+                            <div class="form-group mb-3">
+                                <label for="name">Họ và tên *</label>
+                                <input asp-for="UserName" type="text" class="form-control" value="@TempData["CustomerName"] "required placeholder="Nguyễn Văn A" />
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="address">Địa chỉ nhận *</label>
+                                <input asp-for="Address" type="text" class="form-control" value="@TempData["CustomerAddress"] "required placeholder="Số nhà, tên đường..." />
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="phone">Số điện thoại *</label>
+                                <input asp-for="PhoneNumber" type="tel" class="form-control" value="@TempData["CustomerPhoneNumber"]" required placeholder="0912345678" />
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button type="submit" name="payment" value="Đặt hàng (COD)"
+                                        class="btn btn-primary btn-lg px-4 custom-btn me-3">
+                                    Đặt hàng (COD) <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                </button>
+                                <button type="submit" name="payment" value="Thanh toán VNPay"
+                                        class="btn btn-primary btn-lg px-4 custom-btn">
+                                    Thanh toán VNPay <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                </button>
+                                <input type="hidden" id="paymentMethod" name="payment" value="" />
+                                <div name ="payment" value="Thanh toán PayPal" id="paypal-button-container" style="max-width:1000px; margin-top: 8px;"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<style>
+    .custom-btn {
+        font-size: 1.2rem; /* Nhỏ lại so với trước */
+        padding: 0.8rem 2.5rem; /* Làm nút dài hơn */
+        border-radius: 6px; /* Bo góc mềm mại */
+        transition: all 0.3s ease-in-out;
+    }
+
+        .custom-btn:hover {
+            background-color: #0056b3; /* Màu khi hover */
+            color: #fff;
+            transform: scale(1.03); /* Phóng to nhẹ */
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ */
+        }
+
+
+    .py-5 {
+        margin-top: 108px;
+    }
+
+    .checkout-title {
+        font-weight: bold;
+        color: #0056b3;
+    }
+
+    .list-group-item {
+        border: none;
+    }
+
+    .form-control {
+        box-shadow: none;
+        border-radius: 0.25rem;
+    }
+
+    .btn-primary {
+        background-color: #0056b3;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #003d80;
+        }
+</style>
+@section Scripts {
+    <script src="https://www.paypal.com/sdk/js?client-id=@ViewBag.PaypalClientdId"></script>
+    <script>
+       
+    paypal.Buttons({
+			style: {
+				layout: 'vertical',
+				color: 'silver',
+				tagline: 'false'
+			},
+			createOrder: (data, actions) => {
+                var userName = document.querySelector('input[name="UserName"]').value;
+                var address = document.querySelector('input[name="Address"]').value;
+                var phoneNumber = document.querySelector('input[name="PhoneNumber"]').value;
+				return fetch("/Cart/create-paypal-order", {
+					method: "post",
+                    body: JSON.stringify({
+                        UserName: userName,
+                        Address: address,
+                        PhoneNumber: phoneNumber
+                    })
+				}).then((response) => {
+
+					if (!response.ok) {
+						return response.json().then(error => { throw error; });
+					}
+                   
+					return response.json();
+                  
+				}).then((order) => order.id)
+				.catch(error => alert(error.message));
+			},
+			onApprove: (data, actions) => {
+				return fetch(`/Cart/capture-paypal-order?orderId=${data.orderID}`, {
+					method: "post",
+				}).then((response) => {
+					if (!response.ok) {
+						return response.json().then(error => { throw error; });
+					}
+                    document.getElementById('paymentMethod').value = 'Thanh toán PayPal';
+                    document.querySelector('form').submit();
+                    window.location.href = "/Cart/Success";
+				}).catch(error => alert(error.message));
+			}
+		}).render('#paypal-button-container');
+
+           
+ 
+
+    </script>
+}

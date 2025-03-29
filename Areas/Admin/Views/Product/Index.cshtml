@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewData["title"] = "Product Index - Page";
+}
+
+
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-lg-12 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Table of Products
+                        <a href="/admin/product/add">
+                            <i class="mdi mdi-plus-circle" style="float:right;font-size: 32px;"></i>
+                        </a>
+                    </h4>
+                    <div class="table-responsive pt-3">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Images</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in ViewBag.data)
+                                {
+                                    <tr class="table-info">
+                                        <td>@product.Id</td>
+                                        <td>@product.Name</td>
+                                        <td>@product.Price.ToString("C")</td> 
+                                       
+                                        <td>
+                                            @if (product.Brand != null)
+                                            {
+                                                @product.Brand.Name
+                                            }
+                                            else
+                                            {
+                                                <span>No Brand</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (product.Category != null)
+                                            {
+                                                @product.Category.Name
+                                            }
+                                            else
+                                            {
+                                                <span>No Category</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @foreach (var image in product.Images)
+                                            {
+                                                <img src="/images/products/@image.Path" alt="Product Image" style="width:50px;height:auto;" />
+                                            }
+                                        </td>
+                                        <td>
+                                            <form method="post" action="/admin/product/update-status">
+                                                <input type="hidden" name="id" value="@product.Id" />
+                                                <select name="status" class="form-control" onchange="this.form.submit()">
+                                                    @if (product.Status == "Available")
+                                                    {
+                                                        <option value="Available" selected>Available</option>
+                                                        <option value="Booked">Booked</option>
+                                                        <option value="Unavailable">Unavailable</option>
+                                                    }
+                                                    else if (product.Status == "Booked")
+                                                    {
+                                                        <option value="Available">Available</option>
+                                                        <option value="Booked" selected>Booked</option>
+                                                        <option value="Unavailable">Unavailable</option>
+                                                    }
+                                                    else if (product.Status == "Unavailable")
+                                                    {
+                                                        <option value="Available">Available</option>
+                                                        <option value="Booked">Booked</option>
+                                                        <option value="Unavailable" selected>Unavailable</option>
+                                                    }
+                                                </select>
+                                            </form>
+                                        </td>
+
+                                        <td style="text-align:center">
+                                            <a asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id">
+                                                <i class="mdi mdi-delete-forever" style="font-size:28px;margin-right: 12px;"></i>
+                                            </a>
+                                            <a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-id="@product.Id">
+                                                <i class="mdi mdi-pencil-box" style="font-size:24px"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+

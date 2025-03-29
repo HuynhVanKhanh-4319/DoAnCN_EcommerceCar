@@ -1,0 +1,29 @@
+﻿@model CarBook.Models.Brand
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h3>Thêm hãng xe</h3>
+    <form asp-area="Admin" asp-controller="Brand" asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Tên Hãng xe</label>
+            <input asp-for="Name" type="text" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        
+   
+        @* <div class="form-group">
+            <label>Ảnh</label>
+            <input asp-for="Image" type="text" class="form-control" />
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Đang hoạt động</label>
+            <input asp-for="IsActive" type="checkbox" class="form-check-input" />
+            <span asp-validation-for="IsActive" class="text-danger"></span>
+        </div>
+ *@
+        <button type="submit" class="btn btn-primary">Tạo mới</button>
+    </form>
+</div>

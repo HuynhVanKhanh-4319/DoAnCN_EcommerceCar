@@ -1,0 +1,86 @@
+﻿@model CarBook.Models.EditProfileViewModel
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190620/ourmid/pngtree-car-rental-car-advertisement-image_173914.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Cars <i class="ion-ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">Choose Your Car</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Profile Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <!-- Preview image -->
+                    <img id="previewImage"
+                         src="~/images/profiles/@Model.ExistingImagePath"
+                         alt="Profile Picture"
+                         class="rounded-circle mb-3"
+                         style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #ddd;" />
+                    <h4 class="card-title mb-1">@Model.Name</h4>
+                    <p class="text-muted">@Model.Address<br>@Model.PhoneNumber</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Form Section -->
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Edit Profile</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                        <!-- Full Name -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Name" class="form-label">Full Name</label>
+                            <input asp-for="Name" class="form-control" placeholder="Enter your full name" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="form-group mb-3">
+                            <label asp-for="PhoneNumber" class="form-label">Phone</label>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="form-group mb-3">
+                            <label asp-for="Address" class="form-label">Address</label>
+                            <input asp-for="Address" class="form-control" placeholder="Enter your address" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <!-- Citizen ID -->
+                        <div class="form-group mb-3">
+                            <label asp-for="CitizenID" class="form-label">Citizen ID</label>
+                            <input asp-for="CitizenID" class="form-control" placeholder="Enter your Citizen ID" />
+                            <span asp-validation-for="CitizenID" class="text-danger"></span>
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div class="form-group mb-3">
+                            <label for="Image" class="form-label">Profile Image</label>
+                            <input type="file" name="Image" class="form-control" />
+                            <span asp-validation-for="Image" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

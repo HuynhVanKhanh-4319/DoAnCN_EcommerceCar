@@ -1,0 +1,60 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Danh sách giảm giá";
+}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-lg-12 stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Table of Products
+                        <a href="/admin/discount/create">
+                            <i class="mdi mdi-plus-circle" style="float:right;font-size: 32px;"></i>
+                        </a>
+                    </h4>
+                    <div class="table-responsive pt-3">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Giảm giá (%)</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày kết thúc</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var discount in Model)
+                                {
+                                    <tr>
+                                        <td>@discount.Id</td>
+                                        <td>@discount.ProductName</td>
+                                        <td>@discount.Percentage</td>
+                                        <td>@discount.StartDate.ToString("dd/MM/yyyy")</td>
+                                        <td>@discount.EndDate.ToString("dd/MM/yyyy")</td>
+                                        <td>@(discount.IsActive ? "Đang hoạt động" : "Hết hạn")</td>
+                                        <td style="text-align:center">
+                                            <a href="@Url.Action("Edit", "Discount", new { id = discount.Id })" class="btn btn-warning btn-sm">Sửa</a>|
+                                            <form action="@Url.Action("Delete", "Discount", new { id = discount.Id })" method="post" style="display:inline;">
+                                                <button type="submit" class="btn btn-danger">Xóa</button>
+                                            </form>
+
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

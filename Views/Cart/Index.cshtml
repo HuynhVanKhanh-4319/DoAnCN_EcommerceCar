@@ -1,0 +1,262 @@
+﻿@{
+    ViewData["Title"] = "Cart Page";
+}
+<style>
+
+
+    /* Hình ảnh chính */
+    .main-image img {
+        max-width: 100%; /* Chiếm toàn bộ chiều ngang */
+        max-height: 600px; /* Tăng chiều cao tối đa */
+        object-fit: cover; /* Giữ tỷ lệ hình ảnh */
+        border: 3px solid #ddd; /* Viền */
+        border-radius: 10px; /* Bo tròn góc */
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .main-image img:hover {
+            transform: scale(1.05); /* Phóng to nhẹ khi hover */
+        }
+
+    /* Hình ảnh phụ */
+    .small-images .small-image-container {
+        margin: 5px;
+    }
+
+    .small-images .small-image {
+        width: 100px;
+        height: 100px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.2s, border-color 0.2s;
+    }
+
+        .small-images .small-image:hover {
+            transform: scale(1.2);
+            border-color: #007bff;
+        }
+
+</style>
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Cars <i class="ion-ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">Choose Your Car</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="cart-container py-5" style="background-color: #f8f9fa;">
+    <div class="container">
+        <h2 class="text-center mb-4" style="font-weight: bold; color: #333;">Đơn Đặt Xe Của Bạn</h2>
+        <div class="row">
+            @foreach (var item in ViewBag.Data)
+            {
+                var startDate = (item.Cart.StartDate == DateTime.MinValue) ? DateTime.Now : item.Cart.StartDate;
+                var endDate = (item.Cart.EndDate == DateTime.MinValue) ? DateTime.Now.AddDays(1) : item.Cart.EndDate;
+
+                <div class="col-md-7 d-flex flex-column align-items-center">
+                    <div class="main-image mb-3">
+                        <img id="main-image-@item.Cart.Id"
+                             src="@((item.Cart.Products.Images != null && item.Cart.Products.Images.Count > 0)
+                                                               ? "/images/products/" + item.Cart.Products.Images[0].Path
+                                                               : "/images/default.jpg")"
+                             class="img-fluid"
+                             alt="Main Product Image"
+                             style="width: 100%; height: auto; max-height: 800px; object-fit: cover; border-radius: 10px;">
+                    </div>
+
+                    <div class="small-images d-flex justify-content-center flex-wrap">
+                        @foreach (var image in item.Cart.Products.Images)
+                        {
+                            <div class="small-image-container mx-2">
+                                <img src="/images/products/@image.Path"
+                                     class="small-image"
+                                     alt="Product Thumbnail"
+                                     style="width: 150px; height: 150px; object-fit: cover; cursor: pointer; border: 2px solid #ddd; border-radius: 5px;"
+                                     onclick="updateMainImage('@item.Cart.Id', '/images/products/@image.Path')" />
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">@item.Cart.Products.Name</h5>
+                            <p class="card-text text-secondary">
+                                Giá gốc:
+                                <strong>
+                                    @if (item.Cart.Products.Discounts != null && item.Cart.Products.Discounts.Count > 0)
+                                    {
+                                        var discount = item.Cart.Products.Discounts[0]; ; 
+                                        var discountPercentage = discount.Percentage;
+                                        var discountedPrice = item.Cart.Products.Price * (1 - (decimal)discountPercentage / 100);
+
+            
+                                        <span class="text-decoration-line-through text-muted">
+                                            @String.Format("{0:0,0}", item.Cart.Products.Price) VND/ngày
+                                        </span>
+
+                                   
+                                    }
+                                    else
+                                    {
+
+                                        <span class="text-danger">
+                                            @String.Format("{0:0,0}", item.Cart.Products.Price)
+                                            VND / ngày
+                                        </span>
+                                    }
+                                </strong>
+                            </p>
+
+
+                            @if (item.Cart.Products.Discounts != null && item.Cart.Products.Discounts.Count > 0)
+                            {
+
+                                var discount = item.Cart.Products.Discounts[0];
+                                var discountPercentage = discount.Percentage;
+                                var discountedPrice = item.Cart.Products.Price * (1 - discountPercentage / 100);
+                            
+
+                                <p class="card-text text-danger">
+                                    Giá sau giảm:
+                                    <strong>@String.Format("{0:0,0}", discountedPrice) VND/ngày</strong>
+                                </p>
+
+
+                                <div class="mb-3">
+                                    <label for="startDate-@item.Cart.Id" class="form-label">Ngày nhận xe:</label>
+                                    <input type="date" class="form-control" id="startDate-@item.Cart.Id"
+                                           value="@item.Cart.StartDate.ToString("yyyy-MM-dd")"
+                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                           onchange="updateCartDates(@item.Cart.Id)" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="endDate-@item.Cart.Id" class="form-label">Ngày trả xe:</label>
+                                    <input type="date" class="form-control" id="endDate-@item.Cart.Id"
+                                           value="@item.Cart.EndDate.ToString("yyyy-MM-dd")"
+                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                           onchange="updateCartDates(@item.Cart.Id)" />
+                                </div>
+
+                                <p>Số ngày: <span id="days-@item.Cart.Id" class="text-primary fw-bold">@item.Cart.Days</span> ngày</p>
+
+                                <p>
+                                    Tổng tiền:
+                                    <span id="total-@item.Cart.Id" class="text-danger fw-bold">
+                                        @if (item.Cart.Products.Discounts != null && item.Cart.Products.Discounts.Count > 0)
+                                        {
+                                            var totalDiscountedPrice = item.Cart.Days * discountedPrice;
+                                            @String.Format("{0:0,0}", totalDiscountedPrice)
+                                        }
+                                        else
+                                        {
+                                            @String.Format("{0:0,0}", item.Cart.Days * item.Cart.Products.Price)
+                                        }
+                                    </span> VND
+
+                                </p>
+                            }
+                            else{
+                                <p class="card-text text-secondary">
+                                    Giá:
+                                    <strong>@String.Format("{0:0,0}", item.Cart.Products.Price)</strong> VND/ngày
+                                </p>
+
+                                <div class="mb-3">
+                                    <label for="startDate-@item.Cart.Id" class="form-label">Ngày nhận xe:</label>
+                                    <input type="date" class="form-control" id="startDate-@item.Cart.Id"
+                                           value="@item.Cart.StartDate.ToString("yyyy-MM-dd")"
+                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                           onchange="updateCartDates(@item.Cart.Id)" />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="endDate-@item.Cart.Id" class="form-label">Ngày trả xe:</label>
+                                    <input type="date" class="form-control" id="endDate-@item.Cart.Id"
+                                           value="@item.Cart.EndDate.ToString("yyyy-MM-dd")"
+                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                           onchange="updateCartDates(@item.Cart.Id)" />
+                                </div>
+
+                                <p>Số ngày: <span id="days-@item.Cart.Id" class="text-primary fw-bold">@item.Cart.Days</span> ngày</p>
+                                <p>
+                                    Tổng tiền:
+                                    <span id="total-@item.Cart.Id" class="text-danger fw-bold">@String.Format("{0:0,0}", item.Cart.Days * item.Cart.Products.Price)</span> VND
+                                </p>
+
+                            }
+                        </div>
+
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <button class="btn btn-danger btn-sm" onclick="removeItem(@item.Cart.Id)">Xóa</button>
+                            <a asp-action="ThanhToan" class="btn btn-success btn-lg">Thanh Toán Ngay</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+<script>
+   
+    function updateCartDates(cartId) {
+        const startDate = document.getElementById(`startDate-${cartId}`).value;
+        const endDate = document.getElementById(`endDate-${cartId}`).value;
+        if (new Date(startDate) > new Date(endDate)) {
+            alert("Ngày trả phải sau ngày lấy xe!");
+            return;
+        }
+        const daysCount = (new Date(endDate) - new Date(startDate)) / (1000 * 3600 * 24) + 1;
+        document.getElementById(`days-${cartId}`).textContent = daysCount
+        fetch(`/cart/UpdateDates?cartId=${cartId}&startDate=${startDate}&endDate=${endDate}&quantity=${daysCount}`, {
+            method: 'POST'
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Ngày thuê/trả được cập nhật thành công.");
+                    location.reload();
+                } else {
+                    alert("Có lỗi xảy ra, vui lòng thử lại.");
+                }
+            });
+    }
+    function removeItem(cartId) {
+        fetch(`/Cart/Xoa?cartId=${cartId}`, {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                
+                    window.location.reload();
+                } else {
+                    alert("Có lỗi xảy ra khi xóa.");
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi khi gửi yêu cầu xóa:", error);
+            });
+    }
+    function updateMainImage(cartId, imagePath) {
+        const mainImage = document.getElementById(`main-image-${cartId}`);
+        if (mainImage) {
+            mainImage.src = imagePath;
+        }
+    }
+
+
+
+</script>
+
+
+
+

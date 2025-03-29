@@ -1,0 +1,99 @@
+﻿@page
+@model ExternalLoginModel
+@{
+    ViewData["Title"] = "Register";
+}
+@{
+    Layout = null;
+}
+
+<h1 class="display-5 text-center mt-5">@ViewData["Title"]</h1>
+<h2 id="external-login-title" class="text-center text-secondary">Liên kết tài khoản @Model.ProviderDisplayName của bạn</h2>
+<hr class="mb-4" />
+
+<p id="external-login-description" class="text-info text-center">
+    Bạn đã đăng nhập thành công với <strong>@Model.ProviderDisplayName</strong>. <br>
+    Vui lòng nhập địa chỉ email cho trang web này bên dưới và nhấn nút Đăng ký để hoàn tất đăng nhập.
+</p>
+
+<div class="d-flex justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="p-4 border rounded shadow-sm">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+            <!-- Input email với thiết kế hiện đại -->
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="Vui lòng nhập email của bạn." />
+                <label asp-for="Input.Email" class="form-label">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <!-- Nút Đăng ký nổi bật -->
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Đăng ký</button>
+        </form>
+    </div>
+</div>
+
+<!-- Kiểm tra CSS -->
+<style>
+    /* Căn chỉnh tiêu đề */
+    #external-login-title {
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    /* Tùy chỉnh hộp mô tả đăng nhập */
+    #external-login-description {
+        font-size: 1rem;
+        line-height: 1.5;
+        margin-bottom: 2rem;
+    }
+
+    /* Thiết lập cho form */
+    .form-floating {
+        position: relative;
+    }
+
+    /* Căn chỉnh phần form */
+    .border {
+        border-color: #ddd;
+    }
+
+    .rounded {
+        border-radius: 8px;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-floating input {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+    .form-label {
+        color: #6c757d;
+        font-weight: 400;
+        font-size: 0.9rem;
+    }
+
+    /* Nút Đăng ký */
+    .btn-primary {
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.75rem;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -1,0 +1,359 @@
+﻿@{
+    ViewData["Title"] = "Product Page";
+}
+<style>
+    .rating {
+        display: flex;
+        justify-content: flex-start; /* Đảm bảo các sao nằm gần nhau hơn */
+        align-items: center;
+        margin-bottom: 6px; /* Giảm khoảng cách với các phần tử phía dưới */
+    }
+
+
+    .star {
+        font-size: 18px; /* Điều chỉnh lại kích thước sao để nó vừa với khoảng cách */
+        margin-right: 2px; /* Giảm khoảng cách giữa các sao */
+    }
+    .star-full {
+        color: gold;
+    }
+
+    .star-half {
+        background: linear-gradient(90deg, gold 50%, #ddd 50%);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
+    .star-empty {
+        color: #ddd;
+    }
+
+    .rating-number {
+        font-size: 16px; /* Giảm kích thước font để tiết kiệm không gian */
+        margin-left: 8px; 
+        margin-top: 16px; /* Giảm khoảng cách với số sao */
+    }
+
+        .rating-number .star-full {
+            color: gold;
+        }
+
+    .car-wrap {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    .text {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 320px; /* Giảm chiều cao để tối ưu không gian hơn */
+    }
+
+    .d-flex {
+        gap: 4px;
+        justify-content: flex-start; /* Giảm khoảng cách giữa các phần tử như giá, sao, v.v. */
+    }
+
+        .d-flex.mb-0.d-block {
+            justify-content: space-between;
+            gap: 4px; /* Giảm khoảng cách giữa các button */
+        }
+
+    .img-container {
+        position: relative;
+    }
+
+    .img {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        border-radius: 8px;
+    }
+
+    .discount-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: red;
+        color: white;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    .price {
+        font-size: 16px; /* Giá sau giảm sẽ lớn hơn */
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* Căn trái để giá nằm trên cùng một dòng */
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: #888;
+        font-size: 14px; /* Giảm font size của giá cũ */
+        margin-right: 8px; /* Giảm khoảng cách giữa giá cũ và giá mới */
+    }
+
+    .car-wrap .text .price span {
+        font-size: 16px;
+        font-weight: 400;
+        color: #1089ff;
+    }
+
+    .discounted-price {
+        color: red; /* Màu đỏ cho giá mới */
+        font-weight: bold;
+        font-size: 16px; /* Giá sau giảm sẽ có font size lớn hơn */
+    }
+
+
+   
+
+
+</style>
+
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Cars <i class="ion-ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">Choose Your Car</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm xe</title>
+    <link rel="stylesheet" type="text/css" href="/search.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        /* Tổng thể của form */
+        .search-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Dòng chứa các thành phần tìm kiếm */
+        .search-options {
+            display: flex;
+            width: 100%;
+            gap: 10px; /* Khoảng cách giữa các phần tử */
+            align-items: center;
+        }
+
+        /* Ô nhập tìm kiếm dài hơn */
+        .search-input {
+            padding: 10px;
+            font-size: 16px;
+            flex: 2; /* Tăng chiều rộng của ô tìm kiếm */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Dropdown và nút đồng nhất */
+        .dropdown-select,
+        .button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            flex: 1; /* Đảm bảo chiều rộng đồng đều */
+            background-color: #f8f9fa; /* Màu nền giống ô tìm kiếm */
+            color: #000;
+        }
+
+        /* Nút tìm kiếm */
+        .button {
+            background-color: #007BFF; /* Màu xanh đậm */
+            color: white;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+
+            /* Thêm hiệu ứng hover */
+            .button:hover,
+            .dropdown-select:hover,
+            .search-input:hover {
+                background-color: #e9ecef; /* Màu nền sáng hơn khi hover */
+            }
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="title">Tìm kiếm xe</h2>
+        <form asp-action="Index" method="get" class="search-form">
+            <div class="search-options">
+                <input type="text" id="searchInput" name="searchTerm" class="search-input" placeholder="Nhập tên sản phẩm" value="@ViewBag.SearchTerm">
+
+                <!-- Dropdown Loại xe -->
+                <div class="dropdown">
+                    <select id="searchTypeSelect" name="type" class="dropdown-select" style="height: 53px;
+                                                                                            background-color: dodgerblue">
+                        <option value="">Chọn loại xe</option>
+                        @foreach (var category in ViewBag.Categories)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="dropdown">
+                   
+                    <select id="searchBrandSelect" name="brand" class="dropdown-select" style="height: 53px;
+    width: 135px; background-color: dodgerblue">
+                        <option value="all" selected>Hãng xe</option>
+                        @foreach (var brand in ViewBag.Brands)
+                        {
+                            <option value="@brand.Id">@brand.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit" class="button">Tìm kiếm</button>
+            </div>
+        </form>
+
+    </div>
+</body>
+</html>
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row">
+            @foreach (var productWithRating in ViewBag.ProductsWithRatings)
+            {
+                var product = productWithRating.Product;
+                var averageRating = productWithRating.AverageRating;
+                var discount = productWithRating.Discount;
+
+                // Tính giá sau giảm giá
+                var priceAfterDiscount = product.Price;
+                if (discount != null)
+                {
+                    priceAfterDiscount = product.Price * (1 - discount.Percentage / 100);
+                }
+
+                <div class="col-md-4 mb-4">
+                    <div class="car-wrap rounded ftco-animate">
+                        <div class="img-container">
+                            <!-- Hiển thị ảnh sản phẩm -->
+                            <div class="img rounded d-flex align-items-end" style="background-image: url('/images/products/@product.Images[0].Path');"></div>
+                            <!-- Phần giảm giá -->
+                            @if (discount != null)
+                            {
+                                <div class="discount-badge">
+                                    <span class="discount-percent">Giảm @discount.Percentage%</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="text">
+                            <h2 class="mb-0"><a href="/product/detail/@product.Id">@product.Name </a></h2>
+                               <span class="cat">Hãng:@product.Brand.Name</span>
+                            <div class="d-flex mb-3">
+                            
+                                @if (discount != null)
+                                {
+                                    <p class="price ml-auto">
+                                        <span class="original-price">@String.Format("{0:N0}", product.Price) VND</span>
+                                        <span class="discounted-price">@String.Format("{0:N0}", Math.Round(priceAfterDiscount, 0)) VND/Ngày</span>
+                                    </p>
+
+                                }
+                                else
+                                {
+                                    <p class="price ml-auto">@String.Format("{0:N0}", product.Price) <span>VND/Ngày</span></p>
+                                }
+                            </div>
+
+                            <div class="rating">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    var isFullStar = averageRating >= i;
+                                    var isHalfStar = averageRating >= i - 0.5 && averageRating < i;
+                                    var starClass = isFullStar ? "star-full" : (isHalfStar ? "star-half" : "star-empty");
+
+                                    <span class="star @starClass">★</span>
+                                }
+                                <p class="rating-number">
+                                    <span class="star-full">★</span>@averageRating
+                                </p>
+                            </div>
+
+                            <p class="d-flex mb-0 d-block">
+                                @if (product.Status == "Available")
+                                {
+                                    <a href="/cart/insert/@product.Id" class="btn btn-primary py-2 mr-1">Book now</a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary py-2 mr-1" style="width:136.5px" disabled>Đã đặt</button>
+                                }
+                                <a href="/product/detail/@product.Id" class="btn btn-secondary py-2 ml-1">Details</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+        <div class="row mt-5">
+            <div class="col text-center">
+                <div class="block-27">
+                    <ul>
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <li>
+                                <a href="@GeneratePageUrl(ViewBag.CurrentPage - 1)">&lt;</a>
+                            </li>
+                        }
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            if (i == ViewBag.CurrentPage)
+                            {
+                                <li class="active"><span>@i</span></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="@GeneratePageUrl(i)">@i</a>
+                                </li>
+                            }
+                        }
+
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <li>
+                                <a href="@GeneratePageUrl(ViewBag.CurrentPage + 1)">&gt;</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    @functions {
+        private string GeneratePageUrl(int page)
+        {
+            var typesQuery = ViewBag.Types != null ? string.Join("&types=", ViewBag.Types) : "";
+            return $"/product/index?page={page}&types={typesQuery}&brand={ViewBag.Brand}&searchTerm={ViewBag.SearchTerm}";
+        }
+    }
+</script>
+
+

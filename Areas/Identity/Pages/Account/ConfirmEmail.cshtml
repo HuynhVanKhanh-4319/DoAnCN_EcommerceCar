@@ -1,0 +1,52 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm Email";
+}
+@* @{
+    Layout = null;
+} *@
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center text-primary mb-4">@ViewData["Title"]</h1>
+            <div class="alert alert-info text-center" role="alert">
+                <partial name="_StatusMessage" model="Model.StatusMessage" />
+            </div
+            <p class="text-center text-muted">
+                Vui lòng kiểm tra email của bạn và nhấp vào liên kết xác nhận để hoàn tất quá trình đăng ký.
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+    }
+
+    h1 {
+        font-weight: 600;
+        font-size: 2.5rem;
+    }
+
+    .alert {
+        font-size: 1.2rem;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .text-muted {
+        font-size: 1rem;
+    }
+
+    .alert-info {
+        background-color: #e9f7fc;
+        color: #31708f;
+        border-color: #bce8f1;
+    }
+</style>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
