@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EcommerceCar")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+422663394b47c7f067916c373cc6cb51cb644ba7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+490e73548fa8ac9aa152a34c13dbfa3cdd4bb4fe")]
 [assembly: System.Reflection.AssemblyProductAttribute("EcommerceCar")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EcommerceCar")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

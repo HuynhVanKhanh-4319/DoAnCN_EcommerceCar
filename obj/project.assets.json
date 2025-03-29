@@ -4799,11 +4799,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hp\\Desktop\\DACN\\EcommerceCar\\EcommerceCar.csproj",
+      "projectUniqueName": "C:\\Users\\hp\\Desktop\\DoAn_CN\\EcommerceCar\\EcommerceCar.csproj",
       "projectName": "EcommerceCar",
-      "projectPath": "C:\\Users\\hp\\Desktop\\DACN\\EcommerceCar\\EcommerceCar.csproj",
+      "projectPath": "C:\\Users\\hp\\Desktop\\DoAn_CN\\EcommerceCar\\EcommerceCar.csproj",
       "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hp\\Desktop\\DACN\\EcommerceCar\\obj\\",
+      "outputPath": "C:\\Users\\hp\\Desktop\\DoAn_CN\\EcommerceCar\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
